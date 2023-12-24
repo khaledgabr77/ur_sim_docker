@@ -199,6 +199,8 @@ RUN echo "export GAZEBO_PLUGIN_PATH=\$GAZEBO_PLUGIN_PATH:/usr/lib/x86_64-linux-g
 # 
 RUN pip3 install opencv-python==4.8.0.76
 RUN pip3 install ultralytics==8.0.162
+# RUN pip3 install Cython
+RUN pip3 install --ignore-installed Cython
 RUN pip3 install lapx>=0.5.2
 
 # create and start as LOCAL_USER_ID
