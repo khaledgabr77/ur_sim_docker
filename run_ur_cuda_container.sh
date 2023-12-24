@@ -38,6 +38,11 @@ if [ ! -d $WORKSPACE_DIR ]; then
 fi
 echo "Container name:$CONTAINER_NAME WORSPACE DIR:$WORKSPACE_DIR" 
 
+if [ ! -d $WORKSPACE_DIR/catkin_ws ]; then
+    cd $WORKSPACE_DIR
+    echo "Creating $WORKSPACE_DIR/catkin_ws/src"
+    mkdir -p catkin_ws/src
+fi
 
 if [ "$2" != "" ]; then
     CMD=$2
@@ -121,7 +126,7 @@ else
     # --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     # --volume="$XAUTH:$XAUTH" \
     # -env="XAUTHORITY=$XAUTH" \
-    
+
     docker run -it \
         --network host \
         --env="DISPLAY=${DISPLAY}" \
