@@ -1,8 +1,8 @@
-.PHONY: ur_noetic_cuda11.7
+.PHONY: logistics_system_noetic_cuda11.7
 
-all: ur_noetic_cuda11.7
+all: logistics_system_noetic_cuda11.7
 
 
-ur_noetic_cuda11.7:
-	docker build -t mzahana/ur_noetic_cuda11.7 . -f Dockerfile_ur-noetic-cuda-11.7.1
+logistics_system_noetic_cuda11.7:
+	docker build -t mzahana/logistics_system_noetic_cuda11.7 . -f Dockerfile_logistics_system-noetic-cuda-11.7.1
 

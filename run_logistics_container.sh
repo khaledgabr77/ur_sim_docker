@@ -3,8 +3,8 @@
 # Authors: Mohammed Abdelkader, mohamedashraf123@gmail.com
 
 
-DOCKER_REPO="mzahana/ur_noetic_cuda11.7"
-CONTAINER_NAME="ur_sim"
+DOCKER_REPO="mzahana/logistics_system_noetic_cuda11.7"
+CONTAINER_NAME="logistics_system_sim"
 WORKSPACE_DIR=~/${CONTAINER_NAME}_shared_volume
 CMD=""
 DOCKER_OPTS=""
