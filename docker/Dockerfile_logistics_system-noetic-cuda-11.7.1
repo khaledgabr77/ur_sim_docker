@@ -163,11 +163,24 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" 
         ros-$ROS_DISTRO-rqt-tf-tree \
 		ros-$ROS_DISTRO-rviz \
         ros-${ROS_DISTRO}-moveit \
+		ros-$ROS_DISTRO-controller-manager \
+		ros-$ROS_DISTRO-effort-controllers \
+		ros-$ROS_DISTRO-gazebo-ros-control \
+		ros-$ROS_DISTRO-joint-state-controller \
+		ros-$ROS_DISTRO-joint-trajectory-controller \
+		ros-$ROS_DISTRO-position-controllers \
+		ros-$ROS_DISTRO-robot-state-publisher \
+		ros-$ROS_DISTRO-joint-state-publisher \
+		ros-$ROS_DISTRO-joint-state-publisher-gui \
+		ros-$ROS_DISTRO-warehouse-ros-mongo \
+		ros-$ROS_DISTRO-trac-ik-kinematics-plugin \
 		xvfb \
 	&& geographiclib-get-geoids egm96-5 \
 	&& apt-get -y autoremove \
 	&& apt-get clean autoclean \
 	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+
+
 
 RUN pip3 install -U \
 		osrf-pycommon
@@ -202,6 +215,34 @@ RUN pip3 install ultralytics==8.0.162
 # RUN pip3 install Cython
 RUN pip3 install --ignore-installed Cython
 RUN pip3 install lapx>=0.5.2
+
+#
+# Install librealsense from debian
+# Ref: https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages
+#
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -sSf https://librealsense.intel.com/Debian/librealsense.pgp | tee /etc/apt/keyrings/librealsense.pgp > /dev/null \
+	&& echo "deb [signed-by=/etc/apt/keyrings/librealsense.pgp] https://librealsense.intel.com/Debian/apt-repo `lsb_release -cs` main" | \
+	tee /etc/apt/sources.list.d/librealsense.list
+RUN apt-get update && apt-get -y --quiet --no-install-recommends --allow-unauthenticated install \
+	librealsense2-dkms \
+	librealsense2-utils \
+	librealsense2-dev \
+	librealsense2-dbg \
+	&& apt-get -y autoremove \
+	&& apt-get clean autoclean \
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
+	ros-${ROS_DISTRO}-jsk-tools \
+	ros-${ROS_DISTRO}-rgbd-launch \
+	ros-${ROS_DISTRO}-image-transport-plugins \
+	ros-${ROS_DISTRO}-image-transport \
+	&& apt-get -y autoremove \
+	&& apt-get clean autoclean \
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# REF: https://stackoverflow.com/questions/77642155/attributeerror-module-object-has-no-attribute-raw-opt/77656642#77656642
+RUN pip3 install empy==3.3.4
 
 # create and start as LOCAL_USER_ID
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
